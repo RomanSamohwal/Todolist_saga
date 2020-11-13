@@ -5,9 +5,10 @@ import thunkMiddleware from 'redux-thunk'
 import {appReducer} from './app-reducer'
 import {authReducer} from '../features/Login/auth-reducer'
 import createSagaMiddleware from 'redux-saga'
-import {takeEvery} from 'redux-saga/effects'
-import {fetchTasksWorkerSaga, removeTaskWorkerSaga, tasksWatcherSaga} from '../features/TodolistsList/tasks-sagas';
-import {initializeAppWorkerSaga, appWatcherSaga} from './app-sagasr';
+import {tasksWatcherSaga} from '../features/TodolistsList/tasks-sagas';
+import {appWatcherSaga} from './app-sagas';
+import { all } from 'redux-saga/effects';
+import {loginWatcherSaga} from '../features/Login/auth-sagas';
 
 
 // объединяя reducer-ы с помощью combineReducers,
@@ -30,7 +31,6 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 sagaMiddleware.run(rootWatcher)
 
 function* rootWatcher() {
-    yield appWatcherSaga()
-    yield tasksWatcherSaga()
+    yield all([appWatcherSaga(),tasksWatcherSaga(),loginWatcherSaga()])
 }
 

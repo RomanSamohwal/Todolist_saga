@@ -52,7 +52,7 @@ export const fetchTodolistsTC = () => {
                 dispatch(setAppStatusAC('succeeded'))
             })
             .catch(error => {
-                handleServerNetworkError(error, dispatch);
+                handleServerNetworkError(error);
             })
     }
 }
